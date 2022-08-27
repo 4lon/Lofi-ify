@@ -7,6 +7,82 @@
   pointer-events: none;
 }
 
+.Play-footer{
+  width: 100vw;
+}
+.Song-Title-End{
+  font-family: "Pragamtica-ExtraLight";
+  letter-spacing: 15px;
+  font-size: 3em;
+  font-style: oblique;
+  position: fixed;
+  bottom:0px;
+  /* right: 0px; */
+  /* left: 5%; */
+  /* color: red;  */
+  color: white; 
+  /* text-shadow: 2px 2px 2px #666666; */
+  margin-bottom: 20px;
+
+  animation: scrollTextEnd 14s infinite linear;
+}
+.Song-Title-Start{
+  font-family: "Pragamtica-ExtraLight";
+  letter-spacing: 15px;
+  font-size: 3em;
+  position: absolute;
+  bottom:0px;
+  /* right: 100vw; */
+  /* left: 0%; */
+  color: white; 
+  /* text-shadow: 2px 2px 2px #666666; */
+  margin-bottom: 20px;
+
+  animation: scrollTextStart 8s infinite linear;
+}
+
+
+/* @keyframes scrollTextStart {
+  from { transform: translateX(-220vw); }
+  to { transform: translateX(-40vw); }
+} */
+@keyframes scrollTextEnd {
+  from { transform: translateX(-60vw); }
+  to { transform: translateX(120vw); }
+}
+.Back-Title{
+  font-family: "Pragamtica-ExtraLight";
+  letter-spacing: 15px;
+  font-size: 2.5em;
+  position: fixed;
+  top:0px;
+  right: 5%;
+  z-index: 2;
+  color: white; 
+}
+.Back-Title:hover{
+  text-decoration: underline;
+  cursor:pointer;
+}
+.App-Title{
+  font-family: "Pragamtica-ExtraLight";
+  letter-spacing: 15px;
+  font-size: 2.5em;
+  position: fixed;
+  top:0px;
+  left: 5%;
+  color: white; 
+}
+
+.Heading-1{
+  font-family: "Pragamtica-ExtraLight";
+  letter-spacing: 20px;
+  font-size: 3.5em;
+  /* left: 5%; */
+  color: white; 
+  /* text-shadow: 2px 2px 2px #666666; */
+  margin-bottom: 20px;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -14,6 +90,17 @@
 }
 
 .App-header {
+  margin-top:-5%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+.Play-header {
+  margin-top:-5%;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -23,11 +110,47 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Record{
+  /* opacity: 0; */
+  
+  position: absolute;
+  margin: auto;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  width: 59%;
+  border-width: 100px;
+  border-color: #ffffff85;
+  height: auto;
 }
 
-#gradient-canvas {
+.Playing{
+  /* opacity: 0; */
+  position: absolute;
+  margin: auto;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  width: 59%;
+  height: auto;
+  animation: rotation 6s infinite linear;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.App-link {
+  color: #61dafb;
+  color: #daf2bb
+}
+
+/* #gradient-canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -38,8 +161,21 @@
   --gradient-color-2: #6ec3f4; 
   --gradient-color-3: #eae2ff;  
   --gradient-color-4: #b9beff;
-}
-      
+} */
+
+#gradient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height:100vh;
+  z-index: -999;
+  --gradient-color-1: #674AB3; 
+  --gradient-color-2: #9F63C4; 
+  --gradient-color-3: #CEA2D7;  
+  --gradient-color-4: #CEA2D7;
+}     
+
 
 @keyframes App-logo-spin {
   from {
@@ -50,10 +186,48 @@
   }
 }
 
+/* Audio Visualiser */
+.AudioVisualiser{
+  height: 65%;
+  position: absolute;
+  z-index: 5;
+  width: 65%;
+}
+
+/* Search Bar */
 .MuiFilledInput-root{
   background-color: #ffffff85 !important;
+  border-radius: 4px !important;
+  font-family: "Pragamtica-ExtraLight" !important;
 }
+
+.MuiInputLabel-root{
+  font-family: "Pragamtica-ExtraLight" !important;
+}
+
+.MuiInputLabel-root.Mui-focused{
+  color: rgba(0, 0, 0, 0.6)  !important;
+}
+
 .MuiFilledInput-root::before{
   border-bottom: 0px !important;
 }
+.MuiFilledInput-root::after{
+  border-color: #712275 !important;
+  border-radius: 4px !important;
+}
 
+@font-face {
+  font-family: 'Pragamtica-ExtraLight';
+  src: local('Pragmatica-ExtraLight'), url(./assets/fonts/Pragmatica-ExtraLight.woff) format('woff');
+}
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
