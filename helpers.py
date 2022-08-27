@@ -5,7 +5,7 @@ from pedalboard.io import AudioFile
 
 def determine_bpm(seg):
     
-    # seg = seg[int(len(seg)/4):int(len(seg)/2)]
+    seg = seg[int(len(seg)/4):int(len(seg)/2)]
 
     # reduce loudness of sounds over 120Hz (focus on bass drum, etc)
     seg = seg.low_pass_filter(120.0)

@@ -2,6 +2,7 @@ import os
 from pedalboard.io import AudioFile
 from pedalboard import Pedalboard, Chorus, Reverb, Bitcrush, Resample, Compressor, HighpassFilter, LowpassFilter, PitchShift
 import helpers
+from midi2audio import FluidSynth
 
 
 def lofify(dir, song):
@@ -29,7 +30,7 @@ def lofify(dir, song):
 
     ### Find bpm - 1
     drums = helpers.pd_load_music(drums)
-    bpm = helpers.determine_bpm(drums) / slow_factor
+    bpm = 1.2 * helpers.determine_bpm(drums) / slow_factor
     ###
 
 
@@ -72,7 +73,17 @@ def lofify(dir, song):
 
     crackle = helpers.pd_load_music(crackle_track)
     crackle = helpers.repeat_for_length(crackle, vocals.duration_seconds)
-    crackle += 30
+    crackle += 20
+    ###
+
+
+    ### Load MIDI
+    FluidSynth('resources/SampleSynthesis.sf2')
+    fs = FluidSynth()
+    fs.midi_to_audio('input.mid', 'output.wav')
+    idk = helpers.pd_load_music("output.wav")
+    idk = helpers.speed_change(idk, vocals.duration_seconds/idk.duration_seconds)
+    idk += 20
     ###
 
 
@@ -93,5 +104,14 @@ def lofify(dir, song):
     # vocals.export("vocals.wav", "wav")
     # other.export("vocals.wav", "wav")
 
-    combined = vocals.overlay(crackle).overlay(drums).overlay(other)
-    combined.export(f"{dir}combined.wav", "wav")
+    combined = vocals.overlay(crackle).overlay(drums).overlay(other).overlay(idk)
+    combined.export(f"{dir}/combined.wav", "wav")
+
+
+
+if __name__ == "main":
+    dir = "output/1" # custom directory for each call? maybe necessary to avoid multi user conflicts
+
+    song = "Bruno Mars - Locked Out Of Heaven" # song name, should be replaced with youtube downloaded file title
+    lofify(dir, song)
+    
