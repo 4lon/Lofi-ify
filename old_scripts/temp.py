@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 from pydub.playback import play
-import helpers
+import processing.helpers as helpers
 
 song = "Taylor Swift - Blank Space"
 # song = "Viva La Vida"
