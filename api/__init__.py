@@ -1,15 +1,11 @@
-import io
-import logging
-import os
-import threading
 
-from confugue import Configuration
 import flask
 from flask import request, send_from_directory
 from flask_cors import CORS
 import werkzeug.exceptions
 from werkzeug.middleware.proxy_fix import ProxyFix
 from processing.lofi_processing import lofify
+from yt_download import download_video
 
 app = flask.Flask(__name__,
                   instance_relative_config=True)
@@ -21,16 +17,13 @@ CORS(app, **app.config.get('CORS', {}))
 
 
 # Requires 
-@app.route('/api/style_transfer/<user_file>', methods=['POST'])
+@app.route('/api/style_transfer/<youtube_link>', methods=['POST'])
 def to_lofi():
-    # audio_filename = get_youtube_download(request.args.get('youtube_link'))    
-    audio_filename = "hello"
+    audio_filename = download_video(request.args.get('youtube_link'))    
     # generate_wav_file should take a file as parameter and write a wav in it
-    result_filename = lofify(request.args.get("user_file"), audio_filename)
+    result_filename = lofify("resources", audio_filename)
 
-    return send_from_directory(request.args.get("user_file"), result_filename)
-
-    # return error_response("Not implemented")
+    return send_from_directory("resources", result_filename)
 
 
 
