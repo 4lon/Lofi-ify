@@ -35,12 +35,14 @@ def lofify(dir, song):
 
 
     ### Combine for accompinament and make midi - 1
-    pb_combined = (pb_vocal + pb_bass + pb_piano + pb_other)
+    # pb_combined = (pb_vocal + pb_bass + pb_piano + pb_other)
 
-    with AudioFile(f"{dir}/without_drums.wav", 'w', samplerate, pb_combined.shape[0]) as f:
-        f.write(pb_combined)
+    # with AudioFile(f"{dir}/without_drums.wav", 'w', samplerate, pb_combined.shape[0]) as f:
+    #     f.write(pb_combined)
 
-    os.system(f"basic-pitch {dir} \"{dir}/without_drums.wav\" --save-midi")
+    os.system(f"rm {dir}/{song}_basic_pitch.mid")
+    os.system(f"basic-pitch {dir} \"copyright/{song}.mp3\" --save-midi")
+    os.system(f"conda run -n g2g10 python -m groove2groove.models.roll2seq_style_transfer --logdir resources/v01_drums run-midi --softmax-temperature 0.5 --sample \"{dir}/{song}_basic_pitch.mid\" resources/Lofi_Piece_in_Eb_major_1.mid {dir}/output.mid")
     ###
 
 
@@ -53,19 +55,20 @@ def lofify(dir, song):
 
     vocals = helpers.pd_load_music(f"{dir}/processed-output-voc.wav")
     vocals = helpers.speed_change(vocals, slow_factor)
+    vocals -= 10
     ###
 
 
-    ### Other editing - 1
-    board = Pedalboard([Resample(6000), PitchShift(3), Reverb(room_size=0.75, wet_level=0.2, dry_level=0.2)])
-    effected = board(pb_other, samplerate)
+    # ### Other editing - 1
+    # board = Pedalboard([Resample(6000), PitchShift(3), Reverb(room_size=0.75, wet_level=0.2, dry_level=0.2)])
+    # effected = board(pb_other, samplerate)
 
-    with AudioFile(f"{dir}/processed-output-oth.wav", 'w', samplerate, effected.shape[0]) as f:
-        f.write(effected)
+    # with AudioFile(f"{dir}/processed-output-oth.wav", 'w', samplerate, effected.shape[0]) as f:
+    #     f.write(effected)
 
-    other = helpers.pd_load_music(f"{dir}/processed-output-oth.wav")
-    other = helpers.speed_change(other, slow_factor)
-    ###
+    # other = helpers.pd_load_music(f"{dir}/processed-output-oth.wav")
+    # other = helpers.speed_change(other, slow_factor)
+    # ###
 
 
     ### Create crackle track - 1
@@ -78,12 +81,11 @@ def lofify(dir, song):
 
 
     ### Load MIDI
-    FluidSynth('resources/SampleSynthesis.sf2')
     fs = FluidSynth()
-    fs.midi_to_audio('input.mid', 'output.wav')
-    idk = helpers.pd_load_music("output.wav")
+    fs.midi_to_audio(f'{dir}/output.mid', f'{dir}/output.wav')
+    idk = helpers.pd_load_music(f"{dir}/output.wav")
     idk = helpers.speed_change(idk, vocals.duration_seconds/idk.duration_seconds)
-    idk += 20
+    idk += 10
     ###
 
 
@@ -104,13 +106,13 @@ def lofify(dir, song):
     # vocals.export("vocals.wav", "wav")
     # other.export("vocals.wav", "wav")
 
-    combined = vocals.overlay(crackle).overlay(drums).overlay(other).overlay(idk)
+    combined = vocals.overlay(crackle).overlay(drums).overlay(idk)
     combined.export(f"{dir}/combined.wav", "wav")
 
 
 
-if __name__ == "main":
-    dir = "output/1" # custom directory for each call? maybe necessary to avoid multi user conflicts
+if __name__ == "__main__":
+    dir = "output/4" # custom directory for each call? maybe necessary to avoid multi user conflicts
 
     song = "Bruno Mars - Locked Out Of Heaven" # song name, should be replaced with youtube downloaded file title
     lofify(dir, song)
