@@ -3,7 +3,7 @@ from pedalboard.io import AudioFile
 from pedalboard import Pedalboard, Chorus, Reverb, Bitcrush, Resample, Compressor, HighpassFilter, LowpassFilter, PitchShift
 import processing.helpers as helpers
 from midi2audio import FluidSynth
-
+import subprocess
 
 def lofify(dir, song):
     # dir = "output/1" # custom directory for each call? maybe necessary to avoid multi user conflicts
@@ -12,7 +12,9 @@ def lofify(dir, song):
     slow_factor = 0.9
 
     ### Seperate channels and load location strings
-    os.system(f"spleeter separate -p spleeter:5stems -o {dir}/spleeter_output \"copyright/{song}.mp3\"")
+    # os.system(f"spleeter separate -p spleeter:5stems -o {dir}/spleeter_output \"copyright/{song}.mp4\"")
+    command = f"spleeter separate -p spleeter:5stems -o {dir}/spleeter_output \"{dir}/{song}.mp4\""
+    subprocess.Popen(command, shell=True, stdout=subprocess.PIPE).stdout.read()
 
     vocal = f"{dir}/spleeter_output/{song}/vocals.wav"
     bass = f"{dir}/spleeter_output/{song}/bass.wav"
@@ -80,8 +82,10 @@ def lofify(dir, song):
     ### Load MIDI
     FluidSynth('resources/SampleSynthesis.sf2')
     fs = FluidSynth()
-    fs.midi_to_audio('input.mid', 'output.wav')
-    idk = helpers.pd_load_music("output.wav")
+    # fs.midi_to_audio('input.mid', 'output.wav')
+    fs.midi_to_audio(f'{dir}/output.mid', f'{dir}/output.wav')
+    idk = helpers.pd_load_music(f"{dir}/output.wav")
+    # idk = helpers.pd_load_music("output.wav")
     idk = helpers.speed_change(idk, vocals.duration_seconds/idk.duration_seconds)
     idk += 20
     ###

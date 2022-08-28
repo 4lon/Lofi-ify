@@ -5,7 +5,7 @@ from flask_cors import CORS
 import werkzeug.exceptions
 from werkzeug.middleware.proxy_fix import ProxyFix
 from processing.lofi_processing import lofify
-from yt_download import download_video
+from processing.yt_download import download_video
 
 app = flask.Flask(__name__,
                   instance_relative_config=True)
@@ -21,11 +21,12 @@ CORS(app, **app.config.get('CORS', {}))
 def to_lofi(youtube_link):
     video_url = f"https://www.youtube.com/watch?{youtube_link}"
     print(video_url)
-    audio_filename = download_video(video_url)    
+    audio_filename = download_video(video_url).split(".mp4")[0]  
+    print(audio_filename)  
     # generate_wav_file should take a file as parameter and write a wav in it
-    result_filename = lofify("resources", audio_filename)
+    result_filename = lofify("resources/intermediate", audio_filename)
 
-    return send_from_directory("resources", result_filename)
+    return send_from_directory("resources/intermediate", result_filename)
 
 
 

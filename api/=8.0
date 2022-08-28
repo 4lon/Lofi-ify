@@ -1,0 +1,2 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: click in /home/alon/.local/lib/python3.8/site-packages (7.1.2)
