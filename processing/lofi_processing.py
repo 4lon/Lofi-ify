@@ -105,7 +105,8 @@ def lofify(dir, song):
     # other.export("vocals.wav", "wav")
 
     combined = vocals.overlay(crackle).overlay(drums).overlay(other).overlay(idk)
-    combined.export(f"{dir}/combined.wav", "wav")
+    combined.export(f"{dir}/combined.mp3", "mp3")
+    return "combined.mp3"
 
 
 
