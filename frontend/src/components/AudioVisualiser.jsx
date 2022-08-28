@@ -9,7 +9,6 @@ const SONG = 'https://demo-react-audio-visualizers.vercel.app/tamsasbeats.mp3'
 export default function AudioVisualiser (props) {
     const [Play, setPlay] = useState(false);
     const ref = useRef(null);   
-    console.log("here" + props.songURL)
     const addclass = () => {
         const img = ref.current; // corresponding DOM node
         if (Play === false) {
@@ -27,15 +26,14 @@ export default function AudioVisualiser (props) {
         <img className="Record" ref={ref} src={record}/>
         <SpectrumVisualizer
             audio={props.songURL}  
-            // audio='https://demo-react-audio-visualizers.vercel.app/tamsasbeats.mp3'
             theme={SpectrumVisualizerTheme.radialSquaredBars}
             colors={['#5D2A7B', '#7948A2']}
-            iconsColor="#7948A2"
+            iconsColor="#BE8CE5"
+            
             showMainActionIcon
             showLoaderIcon
             highFrequency={8000}
         />
-       
     </div>
     );
 }
