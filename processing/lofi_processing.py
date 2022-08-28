@@ -1,7 +1,7 @@
 import os
 from pedalboard.io import AudioFile
 from pedalboard import Pedalboard, Chorus, Reverb, Bitcrush, Resample, Compressor, HighpassFilter, LowpassFilter, PitchShift
-import processing.helpers
+import processing.helpers as helpers
 from midi2audio import FluidSynth
 
 

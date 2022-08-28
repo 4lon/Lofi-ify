@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 from pydub.playback import play
-import helpers
+import processing.helpers as helpers
 
 song = "Cymatics - Eternity Drum Loop 9 - 87 BPM.wav"
 # song = "Viva La Vida"
