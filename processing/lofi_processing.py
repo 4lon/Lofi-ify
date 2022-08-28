@@ -1,7 +1,7 @@
 import os
 from pedalboard.io import AudioFile
 from pedalboard import Pedalboard, Chorus, Reverb, Bitcrush, Resample, Compressor, HighpassFilter, LowpassFilter, PitchShift
-import helpers
+import processing.helpers
 from midi2audio import FluidSynth
 
 
@@ -105,7 +105,8 @@ def lofify(dir, song):
     # other.export("vocals.wav", "wav")
 
     combined = vocals.overlay(crackle).overlay(drums).overlay(other).overlay(idk)
-    combined.export(f"{dir}/combined.wav", "wav")
+    combined.export(f"{dir}/combined.mp3", "mp3")
+    return "combined.mp3"
 
 
 
