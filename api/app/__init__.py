@@ -3,7 +3,7 @@ import logging
 import os
 import threading
 
-from confugue import Configuration
+# from confugue import Configuration
 import flask
 from flask_cors import CORS
 from flask_limiter import Limiter
@@ -58,3 +58,16 @@ def error_response(error, status_code=400):
     response = flask.make_response(flask.json.dumps({'error': error}), status_code)
     response.content_type = 'application/json'
     return response
+
+    
+
+@app.route('/api/yt-download/', methods=['GET'])
+def yt_download():
+    return "test"
+
+@app.route('/hello')
+def hello():
+    # response = flask.make_response(flask.json.dumps({'error': 200}), 200)
+    # return response
+    return "test"
+    
