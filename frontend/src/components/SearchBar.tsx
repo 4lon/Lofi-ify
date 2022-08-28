@@ -15,8 +15,8 @@ export function SearchBar (props:IAppProps) {
   
   const inputHandler = (e:any) => {
     //convert input text to lower case
-    var lowerCase = e.target.value.toLowerCase();
-    setInputText(lowerCase);
+    // var lowerCase = e.target.value.toLowerCase();
+    setInputText(e.target.value);
   }; 
 
   const submitHandler = (e:any) =>{
